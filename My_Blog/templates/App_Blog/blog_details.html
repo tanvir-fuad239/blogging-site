@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title_block %} {{ blog.blog_title }} {% endblock title_block %}
+
+{% block body_block %}
+
+    <h2>{{ blog.blog_title }}</h2>
+    <h6><i>{{ blog.publish_date }}</i></h6>
+    <p>Posted by <a href="{% url 'App_Blog:view_profile' user=blog.author %}">@{{ blog.author }}</a></p>
+    <h6>{{ blog.liked_blog.count }} likes | {{ blog.blog_comment.count }} comments</h6>
+ 
+
+    
+    <div class="row">
+        <div class="col-sm-10 col-md-10 col-lg-10 my-3">
+
+            <img src="/media/{{ blog.blog_image }}" alt="/media/{{ blog.blog_image }}" width="100%">
+
+        </div>
+
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            
+            <p>
+                {{ blog.blog_content|linebreaks }}
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="row my-4">
+
+
+        <span>
+
+            {% if liked %}
+
+            <a href="{% url 'App_Blog:liked' pk=blog.pk %}"><i class="fa fa-thumbs-up" aria-hidden="true"></i></a>
+
+            {% else %}
+
+            <a href="{% url 'App_Blog:unliked' pk=blog.pk %}"><i class="fa fa-thumbs-down" aria-hidden="true"></i></a>
+
+            {% endif %}
+
+            <a href="{% url 'App_Blog:delete_blog' pk=blog.pk %}" class="btn btn-danger btn-md ms-3">Delete</a>
+            
+        </span>
+        
+        
+        <div class="col-sm-6 col-md-6 col-lg-6">
+            
+            
+
+            <hr>
+
+          
+            <br><br>
+
+            {% if blog.blog_comment.all %}
+
+            <h3>Comments: </h3>
+            
+                {% for comment in blog.blog_comment.all  %}
+                
+                    <p><b>{{ comment.comment }}</b></p>
+                    <h6><i>{{ comment.comment_date }}</i></h6>
+                    <p><a href="{% url 'App_Blog:view_profile' user=comment.user %}">@{{ comment.user }}</a></p>
+                
+                {% endfor %}
+            
+            {% else %}
+
+            <h3>No comments yet</h3>
+            
+            
+            {% endif %}
+
+        </div>
+
+        <div class="col-sm-6 col-md-6 col-lg-6">
+            
+            <form  method="POST">
+                
+                {{ comment|crispy }}
+                {% csrf_token %}
+
+                <input type="submit" value="Comment"  class="btn btn-primary btn-md mt-3">
+
+            </form>
+            
+        </div>
+
+    </div>
+
+
+{% endblock body_block %}

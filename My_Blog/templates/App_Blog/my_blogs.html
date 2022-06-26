@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% block title_block %} @{{ user }} {% endblock title_block %}  
+
+{% block body_block %}
+
+{% if user.blog_author.all %}
+
+{% for blog in user.blog_author.all %}
+
+<h2>{{ blog.blog_title }}</h2>
+<h6><i>{{ blog.publish_date }}</i></h6>
+<h6>{{ blog.liked_blog.count }} likes | {{ blog.blog_comment.count }} comments</h6>
+
+
+<div class="row">
+    <div class="col-sm-4 col-md-4 col-lg-4 mt-4">
+
+        <img src="/media/{{ blog.blog_image }}" alt="{{ blog.blog_image }}" width="100%">
+
+    </div>
+
+    <div class="col-sm-8 col-md-8 col-lg-8">
+        <p>
+            {{ blog.blog_content|range_of_words|linebreaks }} <a href="{% url 'App_Blog:edit_blog' pk=blog.pk %}" class="me-3">Edit</a> <a href="{% url 'App_Blog:blog_details' pk=blog.pk %}">Read More</a>
+        </p>
+
+
+    </div>
+    
+    <p class="mt-3 ">Posted by <a href="{% url 'App_Blog:view_profile' user=blog.author %}">@{{ blog.author }}</a></p>
+
+</div>
+
+<br>
+<hr>
+
+{% endfor %}
+
+{% else %}
+
+<p>No blogs added <a href="{% url 'App_Blog:write_blog' %}">Create New?</a></p>
+
+{% endif %}
+
+
+{% endblock body_block %}
+
+
+
+

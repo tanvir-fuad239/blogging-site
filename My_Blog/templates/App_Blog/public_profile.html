@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title_block %} {{ first_name }} {{ last_name }} {% endblock title_block %}
+
+{% block body_block %}
+
+
+{% if profile_pic %}
+
+<img src="/media/{{ profile_pic }}" alt="/media/{{ profile_pic }}" width="150px" class="rounded-circle">
+ 
+
+
+{% else %}
+
+<img src="/media/avatar-male.jpg" alt="/media/avatar-male.jpg" width="150px" class="rounded-circle">
+ 
+
+
+{% endif %}
+
+<p>First Name : <b>{{ first_name }}</b></p>
+<p>Last Name : <b>{{ last_name }}</b></p>
+<p>Username : <b>@{{ username }}</b></p>
+<p>Email : <b>{{ email }}</b></p>
+
+ 
+
+
+{% endblock body_block %}

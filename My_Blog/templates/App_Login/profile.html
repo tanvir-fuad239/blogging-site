@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title_block %} My Profile {% endblock title_block %}
+
+{% block body_block %}
+
+    {% if user.user_profile %}
+
+        <img src="/media/{{ user.user_profile.profile_pic }}" alt="/media/{{ user.user_profile.profile_pic }}" width="150px" class="rounded-circle">
+        <br>
+        <a href="{% url 'App_Login:change_profile_pic' %}" class="btn btn-primary btn-md my-2">Change Profile Picture</a>
+        
+    
+    {% else %}
+
+        <img src="/media/avatar-male.jpg" alt="/media/avatar-male.jpg" width="150px" class="rounded-circle">
+        <br>
+        <a href="{% url 'App_Login:add_profile_pic' %}" class="btn btn-primary btn-md my-2">Add Profile Picture</a>
+   
+
+    {% endif %}
+
+    <p>First Name : <b>{{ user.first_name }}</b></p>
+    <p>Last Name : <b>{{ user.last_name }}</b></p>
+    <p>Username : <b>{{ user.username }}</b></p>
+    <p>Email : <b>{{ user.email }}</b></p>
+    
+    <a href="{% url 'App_Login:change_profile' %}" class="btn btn-secondary btn-md">Change Profile</a>
+
+
+{% endblock body_block %}

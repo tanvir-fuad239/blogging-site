@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title_block %} {{ blog.blog_title }} {% endblock title_block %}
+
+{% block body_block %}
+
+{% if user == blog.author %}
+
+<form enctype="multipart/form-data" method="POST">
+
+    {% csrf_token %}
+
+    <p>Are you sure to delete <b>{{ blog.blog_title }}</b>?</p>
+
+    <input type="submit" value="Delete" class="btn btn-danger btn-md">
+    <a href="{% url 'App_Blog:blog_details' pk=blog.pk %}" class="btn btn-md btn-light border ">cancel</a>
+
+</form>
+
+{% else %}
+
+<h3>You are not allowed to delete this blog : 404</h3>
+
+{% endif %}
+
+
+{% endblock body_block %}
